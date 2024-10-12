@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ธีมวันเกิด</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('DALL·E 2024-10-12 09.18.19 - A happy birthday card-style background featuring pastel blue and pink colors, with cute kittens, paw prints, yarn balls, and fish bones. The center ha.webp'); /* ใส่ URL ภาพพื้นหลัง */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .gift-box {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background-color: #ffffff;
+            border: 4px solid #69eeff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.5s;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .lid {
+            position: absolute;
+            width: 100%;
+            height: 70px;
+            background-color: #FF69B4;
+            border-radius: 10px 10px 0 0;
+            top: -70px;
+            transition: transform 0.5s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .box-image {
+            width: 100%;
+            height: 100%;
+            background-image: url('DALL·E 2024-10-12 09.19.15 - A cute gift box illustration that matches a playful birthday theme with pastel colors. The box should be wrapped in light pink and blue with a large r.webp'); /* เปลี่ยน URL นี้ */
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            transition: opacity 0.5s ease;
+        }
+
+        .photo {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            top: 50px;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+
+        .message {
+            position: absolute;
+            bottom: 20px;
+            opacity: 0;
+            font-size: 20px;
+            text-align: center;
+            transition: opacity 0.5s ease;
+            color: #ce0303;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .opened .lid {
+            transform: translateY(-80px);
+        }
+
+        .opened .photo {
+            opacity: 1;
+            transition-delay: 0.3s;
+        }
+
+        .opened .message {
+            opacity: 1;
+            transition-delay: 0.3s;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: fall 1s forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(300px); opacity: 0; }
+        }
+
+        /* เพิ่มเอฟเฟกต์แสงรอบๆ กล่อง */
+        .glow {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(226, 217, 87, 0.5), rgba(255,105,180,0) 70%);
+            border-radius: 50%;
+            animation: glow-pulse 3s infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.6; }
+        }
+
+        /* ลูกเล่นดวงไฟหมุนวนรอบกล่อง */
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #FF69B4;
+            border-radius: 50%;
+            animation: rotate 3s linear infinite;
+        }
+
+        .sparkle:nth-child(1) { top: -20px; left: 20%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: -20px; left: 80%; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { top: 90%; left: -20px; animation-delay: 1s; }
+        .sparkle:nth-child(4) { top: 90%; left: 90%; animation-delay: 1.5s; }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg) translate(120px); }
+            100% { transform: rotate(360deg) translate(120px); }
+        }
+
+        /* CSS สำหรับเอฟเฟกต์พลุ */
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: explode 1.5s forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<audio id="gift-music">
+    <source src="happy-birthday-my-kitty-120918.mp3" type="audio/mpeg"> <!-- เปลี่ยน URL นี้เป็นที่อยู่ของไฟล์เพลง -->
+    Your browser does not support the audio element.
+</audio>
+
+<div class="gift-box" onclick="openGift()">
+    <div class="glow"></div>
+    <div class="lid"></div>
+    <div class="box-image"></div>
+    <div class="photo" style="background-image: url('download.jpg');"></div>
+    <div class="message">สุขสันต์วันเกิด! 🎉 ขอให้มีความสุขมาก ๆ</div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+</div>
+
+<script>
+    // ฟังก์ชันเปิดกล่อง
+    function openGift() {
+        const giftBox = document.querySelector('.gift-box');
+        giftBox.classList.toggle('opened');
+        shakeBox();
+        createConfetti(); // สร้าง confetti
+
+        // เล่นเพลงเมื่อเปิดกล่อง
+        const music = document.getElementById('gift-music');
+        music.play();
+
+        // ฟังเหตุการณ์เมื่อเพลงจบ
+        music.addEventListener('ended', () => {
+            createFireworks(); // เรียกใช้ฟังก์ชันแสดงพลุเมื่อเพลงจบ
+        });
+
+        // ทำให้เอฟเฟกต์เปิดกล่องอยู่ได้นานขึ้น
+        setTimeout(() => {
+            giftBox.classList.remove('opened'); // ลบคลาส opened หลังจาก 5 วินาที
+            music.pause(); // หยุดเพลง
+            music.currentTime = 0; // รีเซ็ตเพลง
+        }, 24000); // กำหนดเวลา 5 วินาที
+    }
+
+    // ฟังก์ชันสร้างพลุ
+    function createFireworks() {
+        for (let i = 0; i < 20; i++) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = Math.random() * window.innerWidth + 'px';
+            firework.style.top = Math.random() * window.innerHeight + 'px';
+            firework.style.backgroundColor = getRandomColor();
+            document.body.appendChild(firework);
+
+            // ลบพลุหลังจาก 1.5 วินาที
+            setTimeout(() => {
+                firework.remove();
+            }, 1500);
+        }
+    }
+
+    // ฟังก์ชันสุ่มสีของพลุ
+    function getRandomColor() {
+        const colors = ['#FF1493', '#FFD700', '#00FF00', '#00BFFF', '#FF69B4'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // ฟังก์ชันสั่นกล่อง
+    function shakeBox() {
+        const giftBox = document.querySelector('.gift-box');
+        giftBox.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            giftBox.style.animation = ''; // Reset animation
+        }, 500);
+    }
+
+    // ฟังก์ชันสร้าง confetti
+    function createConfetti() {
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.backgroundColor = getRandomColor();
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.top = Math.random() * window.innerHeight + 'px';
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            document.body.appendChild(confetti);
+            setTimeout(() => {
+                confetti.remove();
+            }, 1500);
+        }
+    }
+</script>
+
+</body>
+</html>
